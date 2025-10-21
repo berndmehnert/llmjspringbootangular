@@ -1,4 +1,4 @@
-# Simple demo app for chatting with an Ollama cloud model 
+# Simple demo app for chatting with a cloud-model 
 
 - llm_chat_client: Angular/nodejs chat client
 - llm_microservice: Spring Boot microservice which asks the Ollama cloud model "gpt-oss:120b" user questions and provides the client with the answers. Since an answer might be long, answers are given as streams
