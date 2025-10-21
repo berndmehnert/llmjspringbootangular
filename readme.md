@@ -8,6 +8,7 @@ TODOs:
 - Write tests
 - Let user choose between all the cloud-models
 - Add more MCP functionality, more context
+- Make view nicer
 - Save conversations to local storage 
 - Add security, caching, ...
 - Complete this page
