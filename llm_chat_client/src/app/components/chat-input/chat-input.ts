@@ -17,7 +17,7 @@ export class ChatInput {
   isFocused = signal(false);
 
   onFocus() {
-    this.isFocused.set(true); 
+    this.isFocused.set(true);
     console.log("Focus set to true");
   }
 
@@ -52,9 +52,11 @@ export class ChatInput {
     return this.chatForm.get('message');
   }
 
-  handleEnter(event: KeyboardEvent) {
-    event.preventDefault(); // Prevent the default newline action
-    this.sendMessage();
+  handleEnter(event: Event) {
+    if (event instanceof KeyboardEvent && !event.shiftKey) {
+      event.preventDefault(); // Prevent the default newline action
+      this.sendMessage();
+    }
   }
 
   sendMessage() {

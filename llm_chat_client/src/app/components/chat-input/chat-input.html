@@ -5,7 +5,7 @@
             <textarea class="form-control border-0" 
                 [textareaAutosize]="5" 
                 rows="1"
-                (keydown.enter)="!$event.shiftKey && handleEnter($event)" formControlName="message"
+                (keydown.enter)="handleEnter($event)" formControlName="message"
                 (focus)="onTextareaFocus()" 
                 (blur)="onTextareaBlur()" 
                 placeholder="Ask me absolutely anything ..."></textarea>
