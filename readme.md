@@ -6,5 +6,7 @@
 
 TODOs:
 - Write tests
+- Add more MCP functionality, more context
+- Save conversations to local storage 
 - Add security, caching, ...
 - Complete this page
