@@ -1,0 +1,39 @@
+<div class="container-sm d-flex flex-column vh-100 overflow-hidden py-3" style="height: 100dvh">
+  <!-- Top row: scrollable messages -->
+  <main
+    #scrollContainer
+    class="flex-grow-1 overflow-auto min-h-0 px-3 scroll-area"
+    (scroll)="onScroll()"
+    role="log"
+    aria-live="polite"
+    aria-relevant="additions"
+    aria-atomic="false"
+  >
+    <!-- Bottom-align when short -->
+    <div class="stack-bottom">
+      @for (message of messages(); track message.id) {
+        <div class="d-flex mb-3" [class.justify-content-end]="message.sender === 'user'">
+          <div
+            class="card rounded-4 message-card"
+            [ngClass]="{
+              'bg-primary text-white': message.sender === 'user',
+              'bg-light': message.sender === 'assistant'
+            }"
+          >
+            <div class="card-body p-2">
+              <markdown class="markdowncssconfig" [data]="message.text.trim()"></markdown>
+            </div>
+          </div>
+        </div>
+      }
+      @empty {
+        <div class="text-muted">No messages yet</div>
+      }
+    </div>
+  </main>
+
+  <!-- Bottom row: input, never shrinks -->
+  <footer class="flex-shrink-0 border-top bg-body pt-0">
+    <app-chat-input [isDisabled]="isLoading()" (messageSentEvent)="handleNewMessage($event)"></app-chat-input>
+  </footer>
+</div>

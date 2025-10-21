@@ -1,0 +1,23 @@
+<form [formGroup]="chatForm" (ngSubmit)="sendMessage()">
+    <div class="card rounded-4 shadow-sm m-3 p-0" tabindex="0"
+         [ngClass]="{'chat-input-card': isFocused()}" (focus)="onFocus()" (blur)="onBlur()">
+        <div class="card-body p-2">
+            <textarea class="form-control border-0" 
+                [textareaAutosize]="5" 
+                rows="1"
+                (keydown.enter)="!$event.shiftKey && handleEnter($event)" formControlName="message"
+                (focus)="onTextareaFocus()" 
+                (blur)="onTextareaBlur()" 
+                placeholder="Ask me absolutely anything ..."></textarea>
+            <div class="action-buttons pt-2 d-flex">
+                <button [disabled]="isDisabled() || chatForm.invalid" type="submit" class="btn btn-primary rounded-3 btn-sm ms-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-up" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
