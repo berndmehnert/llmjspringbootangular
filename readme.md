@@ -12,3 +12,5 @@ TODOs:
 - Save conversations to local storage 
 - Add security, caching, ...
 - Complete this page
+
+![a chat example](llmchat.png)
