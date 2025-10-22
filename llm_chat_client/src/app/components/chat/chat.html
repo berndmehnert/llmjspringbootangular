@@ -14,10 +14,10 @@
       @for (message of messages(); track message.id) {
         <div class="d-flex mb-3" [class.justify-content-end]="message.sender === 'user'">
           <div
-            class="card rounded-4 message-card"
+            class="card rounded-4 border-0 shadow-sm"
             [ngClass]="{
-              'bg-primary text-white': message.sender === 'user',
-              'bg-light': message.sender === 'assistant'
+              'custom-user-card-colors text-white': message.sender === 'user',
+              'custom-assistant-card-colors': message.sender === 'assistant'
             }"
           >
             <div class="card-body p-2">
