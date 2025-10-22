@@ -9,7 +9,7 @@
 TODOs:
 - Write tests
 - Let user choose between all the cloud-models
-- Add more MCP functionality, more context
+- Add more MCP functionality, at this moment, the model has no knowledge of the questions asked before, more context
 - Make view look nicer
 - Save conversations as it fits your use case and with the appropriate security considerations!
 - IMPORTANT: Add security as it is appropriate for your usecase, at the moment only the communication of the microservice with the cloud has a respectable security: it uses both JWT and TLS. The communication between the frontend and the service is not secure at the moment, the only thing that is installed is CORS handling ;)
