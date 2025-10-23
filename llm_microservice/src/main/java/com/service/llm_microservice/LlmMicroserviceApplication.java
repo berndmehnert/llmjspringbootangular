@@ -9,5 +9,4 @@ public class LlmMicroserviceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LlmMicroserviceApplication.class, args);
 	}
-
 }
