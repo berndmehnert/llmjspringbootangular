@@ -3,6 +3,7 @@ package com.service.llm_microservice.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,12 @@ import reactor.core.publisher.Mono;
 public class ChatService {
 
     private final WebClient webClient;
-    private final String API_KEY = System.getenv("OLLAMA_API_KEY");
+    private final String API_KEY;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public ChatService(WebClient webClient) {
+    public ChatService(WebClient webClient, @Value("${ollama.api.key}") String apiKey) {
         this.webClient = webClient;
+        this.API_KEY = apiKey;
     }
 
     public Flux<String> getChatResponseStream(String userMessage) {

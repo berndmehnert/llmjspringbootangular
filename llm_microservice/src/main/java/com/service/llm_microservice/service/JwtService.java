@@ -2,12 +2,19 @@ package com.service.llm_microservice.service;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtService {
-    private final String SECRET_KEY = "MjIFucwsDtXtBrSlMXNk89kjqh1EBEWX0QOiij8zhmDTYdZecK"; // Todo: Move to env variable!
+    private final String SECRET_KEY;
+
+    JwtService(@Value("${jwt.secret.key}") String secretKey) {
+        this.SECRET_KEY = secretKey;
+    }
+
     private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
 
     public String extractUsername(String token) {
