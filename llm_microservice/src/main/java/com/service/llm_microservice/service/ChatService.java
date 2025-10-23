@@ -32,7 +32,7 @@ public class ChatService {
         message.put("role", "user");
         message.put("content", userMessage);
         requestBody.put("messages", new Map[]{message});
-        requestBody.put("stream", true); // <-- Set stream to true!
+        requestBody.put("stream", true); // The corresponding API now supports streaming, the old code is commented out.
 
         String jsonRequestBody;
         try {
