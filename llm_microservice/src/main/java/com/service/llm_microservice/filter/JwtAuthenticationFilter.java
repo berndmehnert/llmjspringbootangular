@@ -3,6 +3,8 @@ package com.service.llm_microservice.filter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private static final Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
     
     @Autowired
     private JwtService jwtService;
@@ -38,10 +41,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         
         String token = extractToken(request);
         
-        // Debug logging
-        System.out.println("Path: " + path);
-        System.out.println("Token present: " + (token != null));
-        
         if (token != null && jwtService.validateToken(token)) {
             String sessionId = jwtService.extractSessionId(token);
             
@@ -52,9 +51,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             
             SecurityContextHolder.getContext().setAuthentication(authentication);
             
-            System.out.println("Authentication set for session: " + sessionId);
+            logger.info("Authentication set for session: " + sessionId);
         } else {
-            System.out.println("Token validation failed or token is null");
+            logger.error("Token validation failed or token is null");
         }
         
         filterChain.doFilter(request, response);
@@ -62,8 +61,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     
     private String extractToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        System.out.println("Authorization header: " + bearerToken); // Debug
-        
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
@@ -71,7 +68,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Check query parameter as fallback (for SSE if needed)
         String queryToken = request.getParameter("token");
         if (queryToken != null) {
-            System.out.println("Token from query param: " + queryToken);
             return queryToken;
         }
         
