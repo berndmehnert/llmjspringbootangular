@@ -16,7 +16,7 @@ public class JwtController {
     @Autowired
     private JwtService jwtService;
 
-    @PostMapping("/api/anonymous-token")
+    @PostMapping("/api/token/anonymous")
     public ResponseEntity<String> generateAnonymousToken() {
         String sessionId = UUID.randomUUID().toString();
         String token = jwtService.generateToken(sessionId);
@@ -24,7 +24,7 @@ public class JwtController {
         return ResponseEntity.ok(token);
     }
 
-    @PostMapping("/refresh")
+    @PostMapping("/api/token/refresh")
     public ResponseEntity<String> refreshToken(
             @RequestHeader("Authorization") String oldToken) {
         String sessionId = jwtService.extractSessionId(oldToken.replace("Bearer ", ""));

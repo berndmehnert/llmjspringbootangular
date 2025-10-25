@@ -31,8 +31,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                 // Whitelist token endpoints - NO authentication required
                 .requestMatchers(
-                        "/api/anonymous-token",
-                        "/refresh"
+                        "/api/token/anonymous",
+                        "/api/token/refresh"
                 ).permitAll()
                 // Everything else under /api requires authentication
                 .requestMatchers("/api/**").authenticated()

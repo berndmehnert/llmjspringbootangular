@@ -34,7 +34,7 @@ export class AuthService {
 
   // Get anonymous token from backend
   public getAnonymousToken(): Observable<string> {
-    return this.http.post(`${this.apiUrl}/api/anonymous-token`, {}, {
+    return this.http.post(`${this.apiUrl}/api/token/anonymous`, {}, {
       responseType: 'text'
     }).pipe(
       tap(token => {
@@ -60,7 +60,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.post(`${this.apiUrl}/refresh`, {}, {
+    return this.http.post(`${this.apiUrl}/api/token/refresh`, {}, {
       headers: headers,
       responseType: 'text'
     }).pipe(

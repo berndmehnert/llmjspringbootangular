@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         
         // Skip JWT validation for excluded paths
         String path = request.getRequestURI();
-        if (path.equals("/api/anonymous-token")) {
+        if (path.equals("/api/token/anonymous")) {
             filterChain.doFilter(request, response);
             return;
         }
