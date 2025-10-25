@@ -77,4 +77,13 @@ public class JwtService {
                 .signWith(key)
                 .compact();
     }
+
+    public String extractSessionId(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("sessionId", String.class);
+    }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
+import { AuthService } from './auth-service';
 
 export interface ChatStreamCallbacks {
   onMessage: (content: string) => void;
@@ -12,49 +13,51 @@ export interface ChatStreamCallbacks {
 })
 export class ChatService {
   private apiUrl = 'http://localhost:8080/api/chat/stream'; // Your backend URL
-  
-    constructor() { }
-  
-    getChatStream(userMessage: string, callbacks: ChatStreamCallbacks): void {
-  
+
+  constructor(private authService: AuthService) { }
+
+  async getChatStream(userMessage: string, callbacks: ChatStreamCallbacks): Promise<void> {
+    try {
+      const token = await this.authService.getValidToken();
+
+      if (!token) {
+        callbacks.onError('Failed to obtain authentication token');
+        return;
+      }
+
       fetchEventSource(this.apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         // The body must be a stringified JSON object
         body: JSON.stringify({
           userMessage: userMessage,
         }),
-  
-        // This is called when the connection is opened
+
         onopen: async (response) => {
           if (response.ok) {
             console.log('Connection opened.');
           } else {
-            // Handle server-side errors (e.g., 4xx, 5xx)
             const error = await response.json();
             callbacks.onError(error);
           }
         },
-  
-        // This is called for each "data:" chunk !
+
         onmessage: (event) => {
           const parsedData = JSON.parse(event.data);
           if (parsedData.done === false) {
             const content = parsedData.message.content;
-            // Pass the content chunk to the component via the callback
             callbacks.onMessage(content);
           }
         },
-  
-        // This is called when the stream is closed by the server
+
         onclose: () => {
           console.log('Connection closed by server.');
           callbacks.onClose();
         },
-  
-        // This is called for any network-related errors
+
         onerror: (err) => {
           console.error('EventSource failed:', err);
           callbacks.onError(err);
@@ -62,5 +65,9 @@ export class ChatService {
           throw err;
         },
       });
+    } catch (error) {
+      console.error('Failed to start chat stream:', error);
+      callbacks.onError(error);
     }
+  }
 }
