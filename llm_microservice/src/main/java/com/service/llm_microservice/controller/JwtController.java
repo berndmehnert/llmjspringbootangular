@@ -25,8 +25,12 @@ public class JwtController {
         String token = jwtService.generateToken(sessionId);
 
         // Build the secure, HttpOnly cookie
+        // Todo 1: Browsers today allow sending cookies that are secure in a local development environement!!
+        //       Use profiles to distinguish between production and development or
+        //       set up a development environment where you use https
+        // Todo 2: Use application.properties to have all configurations at one place ...
         ResponseCookie cookie = ResponseCookie.from("chat_token", token)
-                .httpOnly(true)    // Crucial: Prevents JavaScript access
+                .httpOnly(true)    // Important: Prevents JavaScript access
                 .secure(true)      // Crucial: Sent only over HTTPS
                 .path("/")         // The cookie is available for all paths
                 .maxAge(60 * 60)   // 1 hour expiration, same as JWT
