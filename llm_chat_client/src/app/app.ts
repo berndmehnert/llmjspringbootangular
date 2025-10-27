@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Chat } from "./components/chat/chat";
 import { AuthService } from './auth-service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ export class App implements OnInit {
   constructor(private authService: AuthService) { }
   ngOnInit(): void {
     // On startup, check if we still have a valid session cookie.
-    this.authService.verifyAuthentication().subscribe({
+    this.authService.verifyAuthentication().pipe(take(1)).subscribe({
       next: result => {
         if (result) {
           console.log("Using valid session!");
