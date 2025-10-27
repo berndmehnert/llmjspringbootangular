@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
-import { AuthService } from './auth-service';
 
 export interface ChatStreamCallbacks {
   onMessage: (content: string) => void;
@@ -14,23 +13,16 @@ export interface ChatStreamCallbacks {
 export class ChatService {
   private apiUrl = 'http://localhost:8080/api/chat/stream'; // Your backend URL
 
-  constructor(private authService: AuthService) { }
+  constructor() { }
 
   async getChatStream(userMessage: string, callbacks: ChatStreamCallbacks): Promise<void> {
     try {
-      const token = await this.authService.getValidToken();
-
-      if (!token) {
-        callbacks.onError('Failed to obtain authentication token');
-        return;
-      }
-
       fetchEventSource(this.apiUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
+        credentials: 'include', // !!!! This line ensures that cookies are sent with the request
         // The body must be a stringified JSON object
         body: JSON.stringify({
           userMessage: userMessage,
@@ -61,13 +53,11 @@ export class ChatService {
         onerror: (err) => {
           console.error('EventSource failed:', err);
           callbacks.onError(err);
-          // Important: Throwing an error here will stop the library from retrying.
           throw err;
         },
       });
     } catch (error) {
       console.error('Failed to start chat stream:', error);
-      callbacks.onError(error);
     }
   }
 }
