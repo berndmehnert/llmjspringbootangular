@@ -2,6 +2,10 @@ textarea.form-control:focus {
   box-shadow: none;
 }
 
+textarea.form-control:disabled {
+  background-color: white;
+}
+
 textarea.form-control {
   resize: none;
   overflow-y: auto;

@@ -1,4 +1,4 @@
-import { Component, effect, input, output, signal } from '@angular/core';
+import { Component, effect, ElementRef, input, output, signal, viewChild } from '@angular/core';
 import { Autosize } from '../../directives/autosize';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,7 @@ export class ChatInput {
   messageSentEvent = output<string>();
   isDisabled = input<boolean>(false);
   isFocused = signal(false);
+  textArea = viewChild<ElementRef>('textarea');
 
   onFocus() {
     this.isFocused.set(true);
@@ -44,6 +45,7 @@ export class ChatInput {
         this.chatForm.disable();
       } else {
         this.chatForm.enable();
+        this.textArea()?.nativeElement.focus();
       }
     });
   }

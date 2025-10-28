@@ -8,7 +8,7 @@
                 (keydown.enter)="handleEnter($event)" formControlName="message"
                 (focus)="onTextareaFocus()" 
                 (blur)="onTextareaBlur()" 
-                placeholder="Ask me absolutely anything ..."></textarea>
+                placeholder="Ask me absolutely anything ..." #textarea></textarea>
             <div class="action-buttons pt-2 d-flex">
                 <button [disabled]="isDisabled() || chatForm.invalid" type="submit" class="btn btn-primary rounded-3 btn-sm ms-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
