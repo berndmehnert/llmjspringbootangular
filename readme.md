@@ -8,6 +8,7 @@
 
 TODOs:
 - Write tests
+- Document the code!
 - Let user choose between all the cloud-models
 - Add more MCP functionality, at this moment, the model has no knowledge of the questions asked before, more context
 - Make view look nicer
