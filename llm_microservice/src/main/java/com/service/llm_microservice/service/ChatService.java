@@ -34,13 +34,11 @@ public class ChatService {
         message.put("role", "user");
         message.put("content", userMessage);
         requestBody.put("messages", new Map[]{message});
-        requestBody.put("stream", true); // The corresponding API now supports streaming, the old code is commented out.
-
+        requestBody.put("stream", true); 
         String jsonRequestBody;
         try {
             jsonRequestBody = objectMapper.writeValueAsString(requestBody);
         } catch (JsonProcessingException e) {
-            // If JSON processing fails, return a Flux that emits an error.
             return Flux.error(new RuntimeException("Error creating request JSON", e));
         }
 

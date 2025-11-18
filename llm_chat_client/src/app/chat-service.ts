@@ -22,8 +22,7 @@ export class ChatService {
         headers: {
           'Content-Type': 'application/json'
         },
-        credentials: 'include', // !!!! This line ensures that cookies are sent with the request
-        // The body must be a stringified JSON object
+        credentials: 'include',
         body: JSON.stringify({
           userMessage: userMessage,
         }),

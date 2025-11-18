@@ -9,7 +9,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { ChatInput } from '../chat-input/chat-input';
 import { ChatService } from '../../chat-service';
-import { MarkdownComponent } from "ngx-markdown";
+import { MarkdownComponent, MarkdownService} from "ngx-markdown";
+declare let renderMathInElement: any; 
 
 export type MessageSender = 'user' | 'assistant';
 
@@ -28,7 +29,6 @@ export interface ChatMessage {
   styleUrl: './chat.css',
 })
 export class Chat {
-  // Signal state
   readonly messages = signal<ChatMessage[]>([
     {
       id: 'init-1',
@@ -40,14 +40,11 @@ export class Chat {
   assistantResponse = signal<string>('');
   isLoading = signal<boolean>(false);
 
-  // Whether we should auto-stick to bottom on new messages
   private readonly stickToBottom = signal(true);
 
-  // Signal query to the scroll container
   private readonly scrollEl = viewChild<ElementRef<HTMLElement>>('scrollContainer');
 
-  constructor(private chatService: ChatService) {
-    // Start at the bottom after first render
+  constructor(private chatService: ChatService, private markdownService: MarkdownService) {
     afterNextRender(() => this.scrollToBottom());
 
     // Auto-scroll on new messages only if we're near the bottom
@@ -91,10 +88,8 @@ export class Chat {
 
     this.chatService.getChatStream(message, {
       onMessage: (content: string) => {
-        // Use .update() to calculate the new value from the old one
         this.assistantResponse.update(currentValue => currentValue + content);
         this.messages.update(list => {
-          // Update the last assistant message with the new content
           const updatedList = [...list];
           if (list.length > 0) {
             updatedList[list.length - 1] = {

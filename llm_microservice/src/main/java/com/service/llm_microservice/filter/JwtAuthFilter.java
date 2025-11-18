@@ -31,18 +31,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        // Try to find the 'chat_token' cookie
         Cookie jwtCookie = WebUtils.getCookie(request, "chat_token");
 
         if (jwtCookie == null) {
-            // If no cookie, continue the filter chain without authenticating
             filterChain.doFilter(request, response);
             return;
         }
 
         String token = jwtCookie.getValue();
         
-        // Use existing JwtService to validate the token
         if (jwtService.validateToken(token)) {
             String sessionId = jwtService.extractSessionId(token);
             
@@ -56,7 +53,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         
-        // Continue the filter chain
         filterChain.doFilter(request, response);
     }
 }
