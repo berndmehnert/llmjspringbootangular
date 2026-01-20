@@ -75,8 +75,8 @@ Navigate to `http://localhost:4200` in your browser.
 
 ## License
 
-Add your license here
+MIT License
 
 ## Contributing
 
-Add contribution guidelines here
+Whoever wants to contribute can contribute
